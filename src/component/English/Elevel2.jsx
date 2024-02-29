@@ -9,20 +9,9 @@ export default function Elevel2() {
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [confitActive, setConfitActive] = useState(true);
   const toggleSidebar = () => {
     setIsSidebarVisible((prev) => !prev);
   };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setConfitActive(false);
-    }, 5000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [confitActive]);
 
   // speech check code
   const word = [
@@ -65,7 +54,7 @@ export default function Elevel2() {
         <div className="mb-4">
           {isCorrect ? (
             
-            <Confetti width={"500px"} height={"2000px"} gravity={0.2}  />
+            <Confetti width={"500px"} height={"2000px"}   />
           ) : (
             ""
           )}
@@ -100,7 +89,7 @@ export default function Elevel2() {
             <button
               disabled
               className={
-                "bg-[#cccccc] text-[#a6a6a6] p-5 ml-96 rounded-md font-bold shadow-md shadow-[#888686] "
+                "bg-[#cccccc] text-[#a6a6a6] p-5 ml-96 rounded-md font-bold shadow-md shadow-[#888686] hover:cursor-not-allowed "
               }
             >
               Check

@@ -1,13 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useState } from "react";
 import Elevel2 from "./Elevel2";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export default function () {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarVisible((prev) => !prev);
+  };
+  const IsActive = (path) => {
+    const location = useLocation();
+    return location.path == path;
   };
   return (
     <div className="navbar   ">
@@ -26,7 +30,7 @@ export default function () {
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                  >
+                  > 
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -102,22 +106,24 @@ export default function () {
             </div>
 
             {/* Level 2 */}
-            <div className="p-4 border-b">
-              <Link to="/English" className="text-blue-500">
-                {" "}
-                Level 1
-              </Link>
-            </div>
+            <Link
+              to="/English"
+              className="text-blue-500"
+              style={IsActive("/English") ? { color: "red" } : null}
+            >
+              <div className="p-4 border-b  hover:bg-slate-300"> Level 1</div>
+            </Link>
+
+            <Link
+              to="/English/Elevel2"
+              className="text-blue-500 "
+              style={IsActive("/English/Elevel2") ? { color: "red" } : null}
+            >
+              <div className="p-4 border-b hover:bg-slate-300"> Level 2</div>
+            </Link>
 
             <div className="p-4 border-b">
-              <Link to="/English/Elevel2" className="text-blue-500 " activeStyle={{color:'red'}}>
-                {" "}
-                Level 2
-              </Link>
-            </div>
-
-            <div className="p-4 border-b">
-              <a href=" " className="text-blue-500">
+              <a href=" " className="text-blue-500 ">
                 Level 3
               </a>
             </div>
@@ -141,9 +147,9 @@ export default function () {
           onClick={toggleSidebar}
           className="fixed top-15 left-1 bg-blue-500 text-white p-2"
         >
-          {isSidebarVisible ? "Hide Sidebar" : "Show Sidebar"}
+          {isSidebarVisible ? "Hide Sidebar": "Show Sidebar"}
         </button>
       </div>
     </div>
-  );
+  ); 
 }
