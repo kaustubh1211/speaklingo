@@ -42,9 +42,9 @@ export default function English() {
   };
 
   return (
-    <div className="english-data">
+    <div className="english-data    ">
       <div className=" flex  flex-col mx-0 items-center justify-center   ">
-        <h1 className="text-3xl   font-bold mb-4">Speak the word</h1>
+        <h1 className="text-3xl  font-bold mb-4">Speak the word</h1>
         {isActive? <Confettie width={"500px"} height={"2000px"} gravity={0.2}/>:""}
         <div className="mb-4">
           {/* <p>Speak the word:</p> */}
