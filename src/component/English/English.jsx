@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import Confettie from 'react-confetti';
+import Confettie from "react-confetti";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 
-export default function English() {
+export default function English({ children }) {
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-  const [isActive , setIsActive]=useState(false);
+  const [isActive, setIsActive] = useState(false);
   const toggleSidebar = () => {
     setIsSidebarVisible((prev) => !prev);
   };
@@ -43,9 +43,14 @@ export default function English() {
 
   return (
     <div className="english-data    ">
+ 
       <div className=" flex  flex-col mx-0 items-center justify-center   ">
         <h1 className="text-3xl  font-bold mb-4">Speak the word</h1>
-        {isActive? <Confettie width={"500px"} height={"2000px"} gravity={0.2}/>:""}
+        {isActive ? (
+          <Confettie width={"500px"} height={"2000px"} gravity={0.2} />
+        ) : (
+          ""
+        )}
         <div className="mb-4">
           {/* <p>Speak the word:</p> */}
           <h1 className="text-center text-4xl font-bold">{currentword}</h1>
@@ -60,13 +65,15 @@ export default function English() {
         </div>
         <h1>You speak letter:</h1>
         {listening ? <h1 className="text-2xl">Listening...</h1> : ""}
-        <h1 className="text-5xl" style={{color:isActive?'green':"red"}}>{speakLetter}</h1>
+        <h1 className="text-5xl" style={{ color: isActive ? "green" : "red" }}>
+          {speakLetter}
+        </h1>
         <div className="flex  mt-32 a ">
           <button
             onClick={handleNextLetter}
             className="bg-green-500 text-white p-5  rounded-md shadow-md shadow-green-700 font-bold "
           >
-            Next  
+            Next
           </button>
 
           {speakLetter == "" ? (

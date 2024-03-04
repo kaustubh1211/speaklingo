@@ -1,10 +1,8 @@
 import React from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useState } from "react";
-import Elevel2 from "./Elevel2";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export default function () {
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarVisible((prev) => !prev);
@@ -30,7 +28,7 @@ export default function () {
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                  > 
+                  >
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -99,13 +97,10 @@ export default function () {
 
       <div className="flex h-screen     ">
         {isSidebarVisible && (
-          <div className="w-64 bg-gray-100  border-r ">
-            {/* Level 1 */}
+          <div className="w-28 md:w-64 bg-gray-100 border-r   ">
             <div className="p-4 border-b top-20">
               <a href=" " className="text-blue-500"></a>
             </div>
-
-            {/* Level 2 */}
             <Link
               to="/English"
               className="text-blue-500"
@@ -121,35 +116,30 @@ export default function () {
             >
               <div className="p-4 border-b hover:bg-slate-300"> Level 2</div>
             </Link>
-
             <div className="p-4 border-b">
               <a href=" " className="text-blue-500 ">
                 Level 3
               </a>
             </div>
-
             <div className="p-4 border-b">
               <a href=" " className="text-blue-500">
                 Level 4
               </a>
             </div>
-
             <div className="p-4 border-b">
               <a href=" " className="text-blue-500">
                 Level 5
               </a>
             </div>
-
-            {/* Add more levels as needed */}
           </div>
         )}
         <button
           onClick={toggleSidebar}
-          className="fixed top-15 left-1 bg-blue-500 text-white p-2"
+          className="  p-4  left-1 bg-blue-500 text-white   "
         >
-          {isSidebarVisible ? "Hide Sidebar": "Show Sidebar"}
+          {isSidebarVisible ? "<" : ">"}
         </button>
       </div>
     </div>
-  ); 
+  );
 }
