@@ -1,13 +1,14 @@
 import React from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useState } from "react";
+
 export default function () {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarVisible((prev) => !prev);
-  };
-  const IsActive = (path) => {
+  }; 
+  const IsActive = (path) => { 
     const location = useLocation();
     return location.path == path;
   };
@@ -95,7 +96,7 @@ export default function () {
         </div>
       </nav>
 
-      <div className="flex h-screen     ">
+      <div className="flex h-screen horinav  ">
         {isSidebarVisible && (
           <div className="w-28 md:w-64 bg-gray-100 border-r   ">
             <div className="p-4 border-b top-20">
@@ -135,9 +136,9 @@ export default function () {
         )}
         <button
           onClick={toggleSidebar}
-          className="  p-4  left-1 bg-blue-500 text-white   "
+          className="navbutton  p-4  left-1  text-black bg-blue-500 rounded-md  h-screen   "
         >
-          {isSidebarVisible ? "<" : ">"}
+          {isSidebarVisible ? "<"  : ">"}
         </button>
       </div>
     </div>

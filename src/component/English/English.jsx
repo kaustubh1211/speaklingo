@@ -42,13 +42,13 @@ export default function English({ children }) {
   };
 
   return (
-    <div className="english-data    ">
- 
-      <div className=" flex  flex-col mx-0 items-center justify-center   ">
+    <div className="english-data ">
+        <h1 className="text-2xl "> Level 1 </h1>
+      <div className=" flex  flex-col mx-0 items-center justify-center  bg-gray-200  ">
         <h1 className="text-3xl  font-bold mb-4">Speak the word</h1>
         {isActive ? (
           <Confettie width={"500px"} height={"2000px"} gravity={0.2} />
-        ) : (
+        ) : ( 
           ""
         )}
         <div className="mb-4">
@@ -68,10 +68,12 @@ export default function English({ children }) {
         <h1 className="text-5xl" style={{ color: isActive ? "green" : "red" }}>
           {speakLetter}
         </h1>
-        <div className="flex  mt-32 a ">
+     
+        <div className="flex  pt-32 rounded-md   ">
+          <div  className="  p-3">
           <button
             onClick={handleNextLetter}
-            className="bg-green-500 text-white p-5  rounded-md shadow-md shadow-green-700 font-bold "
+            className= " bg-white  text-[#a6a6a6] p-5  rounded-md shadow-md shadow-[#888686] font-bold hover:bg-[#cccccc] "
           >
             Next
           </button>
@@ -95,6 +97,7 @@ export default function English({ children }) {
               Check{" "}
             </button>
           )}
+        </div>
         </div>
       </div>
     </div>

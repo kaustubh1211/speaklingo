@@ -43,12 +43,35 @@ code {
   position:absolute;
   margin-top: -49rem;
   margin-left: 38rem;
-  display: flex;
+  display: flex;   
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh; /* Adjust as needed */
 }
+@media screen and (max-width: 768px) {
+  .english-data {
+    margin-top: 0; /* Remove margin-top for smaller screens */
+    top: 50%; /* Align to the vertical center */
+    transform: translate(-50%, -50%); /* Move to the center both horizontally and vertically */
+    width: 90%; /* Adjust width for smaller screens */
+    max-width: 400px; /* Set maximum width for smaller screens */
+    margin-left: 22rem;
+    justify-content: center;
+  }
+  .horinav{
+    position: absolute;
+    /* margin-top: -45rem; */
+    
+  }
+  .navbutton{
+    height: 20px;
+    padding: 200px;
+    background-color: aqua;
+  }
+}
+
+
 
 @tailwind base;
 @tailwind components;
