@@ -4,17 +4,17 @@ import { useState } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import Confetti from "react-confetti";  
+import Confetti from "react-confetti";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-export default function Elevel2() {
+export default function Challenge() {
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const [isCorrect, setIsCorrect] = useState(false);
   const toggleSidebar = () => {
     setIsSidebarVisible((prev) => !prev);
   };
-
+  
   // speech check code
   const word = [
     "THIS IS HOUSE",
@@ -58,7 +58,7 @@ export default function Elevel2() {
 
   return (
     <div className="english-data animate-fade-in">
-       <h1 className="text-2xl" > Level 2 </h1>
+       <h1 className="text-2xl" > Welcome to challenge feature  </h1>
       <div className=" flex  flex-col mx-0 items-center justify-center  bg-gray-200 ">
         <h1 className="text-3xl   font-bold mb-4">Speak the word</h1>
         <div className="mb-4">
@@ -113,8 +113,9 @@ export default function Elevel2() {
             >
               Check{" "}
             </button>
+                
           )}
-                   <ToastContainer />
+              <ToastContainer />
         </div>
       </div>
     </div>

@@ -117,11 +117,13 @@ export default function () {
             >
               <div className="p-4 border-b hover:bg-slate-300"> Level 2</div>
             </Link>
-            <div className="p-4 border-b">
-              <a href=" " className="text-blue-500 ">
-                Level 3
-              </a>
-            </div>
+            <Link
+              to="/English/Challenge"
+              className="text-blue-500 "
+              // style={IsActive("/English/Elevel2") ? { color: "red" } : null}
+            >
+              <div className="p-4 border-b hover:bg-slate-300"> challenge</div>
+            </Link>
             <div className="p-4 border-b">
               <a href=" " className="text-blue-500">
                 Level 4

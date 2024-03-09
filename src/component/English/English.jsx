@@ -1,7 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Confettie from "react-confetti";
+import Elevel2 from "./Elevel2";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
@@ -13,7 +16,9 @@ export default function English({ children }) {
   const toggleSidebar = () => {
     setIsSidebarVisible((prev) => !prev);
   };
+
   // speech check code
+  const navigate=useNavigate();
   const word = ["CAT", "BAT", "BALL", "TALL"];
   const [currentLetter, setCurrentLetter] = useState(0);
 
@@ -25,26 +30,39 @@ export default function English({ children }) {
 
   const checkValue = () => {
     const audioElement = new Audio();
+  
     if (currentword === speakLetter) {
       audioElement.src = "/audio/correct-6033.mp3";
       setIsActive(true);
+      toast.success("great !", {
+      autoClose:1500
+      });
     } else {
       audioElement.src = "/audio/buzzer-15-187758.mp3";
       setIsActive(false);
+      toast.error("sorry its wrong",{
+         autoClose: 1500 
+      })
     }
     audioElement.play();
   };
 
   const handleNextLetter = () => {
-    setCurrentLetter((prevIndex) => (prevIndex + 1) % word.length);
+    setCurrentLetter((prevIndex) => {
+     const newIndex=((prevIndex + 1) % word.length);
+     if(newIndex === 0){
+      navigate('/English/Elevel2');
+     }
+     return newIndex;
+    })
     resetTranscript();
     setIsActive(false);
   };
 
   return (
-    <div className="english-data ">
-        <h1 className="text-2xl "> Level 1 </h1>
-      <div className=" flex  flex-col mx-0 items-center justify-center  bg-gray-200  ">
+    <div className="english-data animate-fade-in ">
+        <h1 className="text-2xl   "> Level 1 </h1>
+      <div className="  flex  flex-col mx-0 items-center justify-center  bg-gray-200  ">
         <h1 className="text-3xl  font-bold mb-4">Speak the word</h1>
         {isActive ? (
           <Confettie width={"500px"} height={"2000px"} gravity={0.2} />
@@ -97,6 +115,7 @@ export default function English({ children }) {
               Check{" "}
             </button>
           )}
+                   <ToastContainer />
         </div>
         </div>
       </div>
