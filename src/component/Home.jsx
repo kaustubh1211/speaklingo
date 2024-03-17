@@ -129,7 +129,7 @@ export default function () {
           </div>
           <div className="flex flex-wrap justify-center space-x-4 ">
             <Link
-              to="/English"
+              to="/Ehome"
               className="bg-d35252 text-white border-none rounded-md px-4 py-2 mx-2 cursor-pointer transition duration-300 bg-[#d35252] animate-fade-in shadow-md shadow-[#592d2d]"
             >
               English

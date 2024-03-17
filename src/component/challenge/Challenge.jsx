@@ -1,123 +1,198 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
-import Confetti from "react-confetti";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-export default function Challenge() {
-  const { transcript, listening, resetTranscript } = useSpeechRecognition();
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const toggleSidebar = () => {
-    setIsSidebarVisible((prev) => !prev);
+import "./Challenge.css";
+import React, { useEffect, useState } from "react";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import io from "socket.io-client";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const socket = io("http://localhost:5000");
+
+const Challenge = () => {
+  const [name, setName] = useState(null);
+  const [room, setRoom] = useState(null);
+  const [info, setInfo] = useState(false);
+  const [question, setQuestion] = useState('');
+  const [options, setOptions] = useState([]);
+  const [answered, setAnswered] = useState(false);
+
+  const [seconds, setSeconds] = useState(); // Set the initial duration in seconds
+  const [scores, setScores] = useState([]);
+  const [winner, setWinner] = useState();
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+
+
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+
+  if (name && room) {
+    setInfo(true);
+
+  }
+};
+useEffect(() => {
+  // Exit the effect when the timer reaches 0
+  if (seconds === 0) return;
+
+  // Create an interval to decrement the time every second
+  const timerInterval = setInterval(() => {
+    setSeconds(prevTime => prevTime - 1);
+  }, 1000);
+
+  // Clean up the interval when the component unmounts
+  return () => {
+    clearInterval(timerInterval);
   };
-  
-  // speech check code
-  const word = [
-    "THIS IS HOUSE",
-    "MY NAME IS RAJ",
-    "MY CAR IS BIG",
-    "RAHUL IS BAD BOY",
-  ];
-  const [currentLetter, setCurrentLetter] = useState(0);
-
-  var speakLetter = transcript.trim().toUpperCase();
-  const currentword = word[currentLetter];
-  const handleSpeak = () => {
-    SpeechRecognition.startListening();
-
-  };
-
-  const checkValue = () => {
-    const audioElement = new Audio();
-  
-    if (currentword === speakLetter) {
-      audioElement.src = "/audio/correct-6033.mp3";
-      setIsCorrect(true);
-      toast.success("great !", {
-      autoClose:1500
-      });
-    } else {
-      audioElement.src = "/audio/buzzer-15-187758.mp3";
-      setIsCorrect(false);
-      toast.error("sorry its wrong",{
-         autoClose: 1500 
-      })
+}, [seconds]); 
+  useEffect(() => {
+    if (name) {
+      socket.emit('joinRoom', room, name);
     }
-    audioElement.play();
+  }, [info]);
+
+
+  useEffect(() => {
+    socket.on('message', (message) => {
+
+      toast(`${message} joined`,{
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+
+
+    });
+    return ()=>{
+      socket.off('message')
+    }
+  }, []);
+
+// useEffect(()=>{
+
+
+//   const intervalId = setInterval(() => {
+//     setSeconds((prevSeconds) => prevSeconds - 1);
+//   }, 1000);
+//   setSeconds(initialDuration)
+
+// },[question])
+
+
+  useEffect(() => {
+    socket.on('newQuestion', (data) => {
+      setQuestion(data.question);
+      setOptions(data.answers);
+      setAnswered(false);
+      setSeconds(data.timer)
+      setSelectedAnswerIndex();
+
+
+
+    });
+
+    socket.on('answerResult', (data) => {
+      if (data.isCorrect) {
+
+        toast(`Correct! ${data.playerName} got it right.`, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          });
+      } 
+      setScores(data.scores);
+
+      // else {
+        // setResult(`Incorrect. The correct answer was: ${data.answers[data.correctAnswer]}`);
+      // }
+
+    });
+
+    socket.on('gameOver', (data)=>{
+      setWinner(data.winner);
+    })
+
+    return () => {
+      socket.off('newQuestion');
+      socket.off('answerResult');
+      socket.off('gameOver');
+    };
+  }, []);
+
+  const handleAnswer = (answerIndex) => {
+    if (!answered) {
+
+
+
+      setSelectedAnswerIndex(answerIndex);
+
+      socket.emit('submitAnswer', room, answerIndex);
+      setAnswered(true);
+    }
   };
 
-  const handleNextLetter = () => {
-    setCurrentLetter((prevIndex) => (prevIndex + 1) % word.length);
-    resetTranscript();
-    setIsCorrect(false);
-  };
+    if(winner){
+      return (
+        <h1>winner is {winner}</h1>
+      )
+    }
 
   return (
-    <div className="english-data animate-fade-in">
-       <h1 className="text-2xl" > Welcome to challenge feature  </h1>
-      <div className=" flex  flex-col mx-0 items-center justify-center  bg-gray-200 ">
-        <h1 className="text-3xl   font-bold mb-4">Speak the word</h1>
-        <div className="mb-4">
-          {isCorrect ? (
-            
-            <Confetti width={"500px"} height={"2000px"}   />
-          ) : (
-            ""
-          )}
-          {/* <p>Speak the word:</p> */}
-          <h1 className="text-center text-4xl font-bold">{currentword}</h1>
-        </div>
-        <div className="">
-          <button
-            onClick={handleSpeak}
-            className="bg-blue-500 text-white p-2  mb-2 rounded-md shadow-md shadow-blue-700 "
-          >
-            Speak
-          </button>
-        </div>
-        <h1>You speak letter:</h1>
-        {listening ? <h1 className="text-2xl">Listening...</h1> : ""}
-        <h1
-          className="text-5xl"
-          style={{ color: isCorrect ? "green" : "red " }}
-        >
-          {speakLetter}
-        </h1>
-        <div className="flex  mt-32 a ">
-          <button
-            onClick={handleNextLetter}
-            className="bg-white  text-[#a6a6a6] p-5  rounded-md shadow-md shadow-[#888686] font-bold hover:bg-[#cccccc]  "
-          >
-            Next
-          </button>
+    <div className="App">
+      {!info ? (
+        <div className='join-div'>
+          <h1>QuizClash 💡</h1>
+          <form onSubmit={handleSubmit}>
+     <input required placeholder='Enter your name' value={name} onChange={(e)=>setName(e.target.value)}/>
+     <input required placeholder='Enter room no' value={room} onChange={(e)=>setRoom(e.target.value)} />
+     <button type='submit' className='join-btn'>JOIN</button>
+     </form>
+     </div>
+      ) : (
+        <div>
+          <h1>QuizClash 💡</h1>
+          <p className='room-id'>Room Id: {room}</p>
+          <ToastContainer />
 
-          {speakLetter == "" ? (
-            <button
-              disabled
-              className={
-                "bg-[#cccccc] text-[#a6a6a6] p-5 ml-96 rounded-md font-bold shadow-md shadow-[#888686] hover:cursor-not-allowed "
-              }
-            >
-              Check
-            </button>
+          {question ? (
+
+            <div className='quiz-div'>
+              Remaining Time: {seconds}
+
+              <div className='question'>
+              <p className='question-text'>{question}</p>
+              </div>
+              <ul>
+                {options.map((answer, index) => (
+                  <li key={index}>
+                    <button className={`options ${selectedAnswerIndex === index ? 'selected' : ''}`} 
+                    onClick={() => handleAnswer(index)} disabled={answered}>
+                      {answer}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              {scores.map((player, index) => (
+          <p key={index}>{player.name}: {player.score}</p>
+        ))}
+            </div>
           ) : (
-            <button
-              onClick={checkValue}
-              className={
-                "bg-green-500 text-white p-5 ml-96 rounded-md font-bold shadow-md shadow-green-700   "
-              }
-            >
-              Check{" "}
-            </button>
-                
+            <p>Loading question...</p>
           )}
-              <ToastContainer />
         </div>
-      </div>
+      )}
     </div>
+
   );
 }
+export default Challenge;

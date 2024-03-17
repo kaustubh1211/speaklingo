@@ -1,21 +1,11 @@
 import React from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import { useState } from "react";
-
+import { Link } from "react-router-dom";
+import "./Ehome.css";
 export default function () {
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsSidebarVisible((prev) => !prev);
-  }; 
-  const IsActive = (path) => { 
-    const location = useLocation();
-    return location.path == path;
-  };
   return (
-    <div className="navbar   ">
-      <nav class="bg-gray-100 ">
-        <div class="max-w-6xl mx-auto px-4">
+    <div>
+      <nav class="bg-gray-100">
+        <div class="max-w-8x mx-auto px-4">
           <div class="flex justify-between">
             <div class="flex space-x-4">
               <div>
@@ -38,7 +28,7 @@ export default function () {
                     />
                   </svg>
                   <Link to="/Home">
-                   <span class="font-bold">SpeakLingo</span>
+                    <span class="font-bold">SpeakLingo</span>
                   </Link>
                 </a>
               </div>
@@ -95,53 +85,48 @@ export default function () {
           </a>
         </div>
       </nav>
+      <div>
+        <ul class="cards">
+          <li class="cards-item">
+            <Link to="/English">
+              <div class="card">
+                <div class=" card-image1">
+                  <img
+                    src="/background-images/speak.jpg"
+                    className="card-image card-image1"
+                  ></img>
+                </div>
 
-      <div className="flex h-screen horinav  ">
-        {isSidebarVisible && (
-          <div className="w-28 md:w-64 bg-gray-100 border-r   ">
-            <div className="p-4 border-b top-20">
-              <a href=" " className="text-blue-500"></a>
-            </div>
-            <Link
-              to="/English"
-              className="text-blue-500"
-              style={IsActive("/English") ? { color: "red" } : null}
-            >
-              <div className="p-4 border-b  hover:bg-slate-300"> Level 1</div>
+                <div class="card-content">
+                  <div class="card-title">Speak and learn</div>
+                  <p class="card-text">
+                    Learn a English using s speech recogantion
+                  </p>
+                  {/* <a href="#" class="cards-button button-block"><span>Go</span></a> */}
+                </div>
+              </div>
             </Link>
-
-            <Link
-              to="/English/Elevel2"
-              className="text-blue-500 "
-              style={IsActive("/English/Elevel2") ? { color: "red" } : null}
-            >
-              <div className="p-4 border-b hover:bg-slate-300"> Level 2</div>
+          </li>
+          <li class="cards-item">
+            <Link to="/Challenge">
+              <div class="card">
+                <div class=" card-image1">
+                  <img
+                    src="/background-images/challenge.jpg"
+                    className="card-image"
+                  ></img>
+                </div>
+                <div class="card-content">
+                  <div class="card-title">Challenge</div>
+                  <p class="card-text">
+                    learn language with stranger and friend
+                  </p>
+                  {/* <a href="#" class="cards-button button-block"><span class="button-title">Go</span></a>  */}
+                </div>
+              </div>
             </Link>
-            <Link
-              to=""
-              className="text-blue-500 "
-              // style={IsActive("/English/Elevel2") ? { color: "red" } : null}
-            >
-              <div className="p-4 border-b hover:bg-slate-300"> Level3</div>
-            </Link>
-            <div className="p-4 border-b">
-              <a href=" " className="text-blue-500">
-                Level 4
-              </a>
-            </div>
-            <div className="p-4 border-b">
-              <a href=" " className="text-blue-500">
-                Level 5
-              </a>
-            </div>
-          </div>
-        )}
-        <button
-          onClick={toggleSidebar}
-          className="navbutton  p-4  left-1  text-black bg-blue-500 rounded-md  h-screen   "
-        >
-          {isSidebarVisible ? "<"  : ">"}
-        </button>
+          </li>
+        </ul>
       </div>
     </div>
   );
