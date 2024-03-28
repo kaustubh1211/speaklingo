@@ -4,33 +4,24 @@
     padding: 0rem;
     text-align: center;
   }
-  .join-div{
-    margin: 5% auto;
-    width: 60%;
-    padding:3rem;
+  .join-div {
+    margin: 8% auto;
+    width: 32%;
+    padding: 4rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* box-shadow: 12px 13px 20px rgba(0, 0, 0, 0.5); */
-  }
+    box-shadow: 22px 13px 20px rgba(0, 0, 0, 0.5);
+}
   input{
   padding: 5px;
   font-size: medium;
   border-radius: 10px;
   }
   
-  input, .join-btn{
-  
-    margin: 5%;
-    width: 60%;
-    height: 30px;
-    outline: none;
-  }
-  .join-btn{
-    height: auto;
-  
-  }
+ 
+
   .quiz-div{
    background-color: rgba(0, 0, 0, 0.14);
   }
@@ -61,7 +52,7 @@
   li{
   
     list-style-type: none;
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 10px;
     width: 70%;
     margin: 15px auto;

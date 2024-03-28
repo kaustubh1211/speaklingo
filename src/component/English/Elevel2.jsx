@@ -26,9 +26,10 @@ export default function Elevel2() {
 
   var speakLetter = transcript.trim().toUpperCase();
   const currentword = word[currentLetter];
+
+  
   const handleSpeak = () => {
     SpeechRecognition.startListening();
-
   };
 
   const checkValue = () => {
